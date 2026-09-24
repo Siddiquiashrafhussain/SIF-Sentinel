@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
@@ -12,9 +12,22 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "format": {
+      "cache": false
+    },
+    "format:check": {
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"],
+      "inputs": ["test/**/*.ts"]
     }
   }
 }

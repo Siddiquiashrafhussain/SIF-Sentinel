@@ -1,0 +1,17 @@
+[
+  { "name": "Wellhead Intervention", "description": "Operations involving wellhead maintenance or repair." },
+  { "name": "Pipe Handling", "description": "Moving, lifting, and connecting pipes." },
+  { "name": "Heavy Lifting", "description": "Crane operations and heavy load lifting." },
+  { "name": "Confined Tank", "description": "Entry into confined spaces or tanks." },
+  { "name": "Pressure Testing", "description": "Testing integrity of pipes and vessels." },
+  { "name": "Valve Maintenance", "description": "Repair and servicing of valves." },
+  { "name": "Line Breaking", "description": "Opening pipelines." },
+  { "name": "Welding", "description": "Hot work and welding." },
+  { "name": "Electrical Maintenance", "description": "Working on electrical equipment." },
+  { "name": "Equipment Inspection", "description": "Routine equipment inspection." },
+  { "name": "Chemical Handling", "description": "Handling hazardous chemicals." },
+  { "name": "Vehicle Movement", "description": "Driving and reversing heavy vehicles." },
+  { "name": "Work at Height", "description": "Operations conducted above ground level." },
+  { "name": "Excavation", "description": "Digging and trenching." },
+  { "name": "General Maintenance", "description": "Routine housekeeping and non-critical maintenance." }
+]

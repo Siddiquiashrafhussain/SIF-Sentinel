@@ -1,0 +1,38 @@
+[
+  {
+    "code": "BYPASS_SAFETY_CONTROLS",
+    "name": "Bypass Safety Controls"
+  },
+  {
+    "code": "CONFINED_SPACE",
+    "name": "Confined Space"
+  },
+  {
+    "code": "DRIVING",
+    "name": "Driving"
+  },
+  {
+    "code": "ENERGY_ISOLATION",
+    "name": "Energy Isolation"
+  },
+  {
+    "code": "HOT_WORK",
+    "name": "Hot Work"
+  },
+  {
+    "code": "LINE_OF_FIRE",
+    "name": "Line of Fire"
+  },
+  {
+    "code": "SAFE_MECHANICAL_LIFTING",
+    "name": "Safe Mechanical Lifting"
+  },
+  {
+    "code": "WORK_AUTHORISATION",
+    "name": "Work Authorisation"
+  },
+  {
+    "code": "WORKING_AT_HEIGHT",
+    "name": "Working at Height"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "version": "sif-sentinel-baseline-0.1.0",
+  "type": "tfidf-logreg",
+  "classes": [
+    "CRITICAL_SIF",
+    "HIGH_SIF",
+    "NON_SIF",
+    "SIF_POTENTIAL"
+  ]
+}

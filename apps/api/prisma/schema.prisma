@@ -1,38 +1,278 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+enum UserRole {
+  HSE_OFFICER
+  FIELD_SUPERVISOR
+  ADMIN
+}
+
+enum ReportType {
+  NEAR_MISS
+  UNSAFE_ACT
+  UNSAFE_CONDITION
+  INCIDENT
+}
+
+enum SifClass {
+  NON_SIF
+  SIF_POTENTIAL
+  HIGH_SIF
+  CRITICAL_SIF
+}
+
+enum ReportStatus {
+  PENDING
+  VERIFIED
+}
+
+enum ReviewDecision {
+  CONFIRMED
+  OVERRIDDEN
+}
+
+enum BarrierClass {
+  HARDWARE
+  ADMINISTRATIVE
+  BEHAVIORAL
+}
+
+enum BarrierTier {
+  L1
+  L2
+  L3
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  role      String   @default("user") // admin, analyst, user
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  siteId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  site      Site       @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  reviews   Review[]
+  auditLogs AuditLog[]
+  feedbacks Feedback[]
 }
 
-model Incident {
+model Site {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users  User[]
+  assets Asset[]
+}
+
+model Asset {
+  id        String   @id @default(uuid())
+  name      String
+  siteId    String
+  lat       Decimal? @db.Decimal(10, 7)
+  lng       Decimal? @db.Decimal(10, 7)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  site    Site     @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  reports Report[]
+}
+
+model Activity {
   id          String   @id @default(uuid())
-  title       String
-  description String
-  date        DateTime
-  siteId      String?
-  severity    String // high, medium, low
-  isSIF       Boolean  @default(false)
+  name        String   @unique
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  reports Report[]
 }
 
 model Report {
+  id         String       @id @default(uuid())
+  reportCode String       @unique
+  type       ReportType
+  shift      String
+  occurredAt DateTime
+  freeText   String       @db.Text
+  source     String
+  assetId    String
+  activityId String
+  status     ReportStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  asset        Asset              @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  activity     Activity           @relation(fields: [activityId], references: [id], onDelete: Restrict)
+  aiInferences AiInference[]
+  reportLsrs   ReportLsr[]
+  barrierGaps  ReportBarrierGap[]
+  clusters     ClusterReport[]
+  reviews      Review[]
+  feedbacks    Feedback[]
+  notifications Notification[]
+
+  @@index([occurredAt])
+  @@index([assetId])
+  @@index([status])
+}
+
+model LifeSavingRule {
   id        String   @id @default(uuid())
-  title     String
-  content   String
-  authorId  String
+  code      String   @unique
+  name      String
+  area      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  reportLsrs ReportLsr[]
+}
+
+model ReportLsr {
+  id               String   @id @default(uuid())
+  reportId         String
+  lifeSavingRuleId String
+  createdAt        DateTime @default(now())
+
+  report         Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  lifeSavingRule LifeSavingRule @relation(fields: [lifeSavingRuleId], references: [id], onDelete: Restrict)
+
+  @@unique([reportId, lifeSavingRuleId])
+}
+
+model Barrier {
+  id        String       @id @default(uuid())
+  code      String       @unique
+  name      String
+  class     BarrierClass
+  tier      BarrierTier
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  reportBarrierGaps ReportBarrierGap[]
+}
+
+model ReportBarrierGap {
+  id        String   @id @default(uuid())
+  reportId  String
+  barrierId String
+  evidence  String?  @db.Text
+  createdAt DateTime @default(now())
+
+  report  Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  barrier Barrier @relation(fields: [barrierId], references: [id], onDelete: Restrict)
+
+  @@unique([reportId, barrierId])
+}
+
+model AiInference {
+  id           String                      @id @default(uuid())
+  reportId     String
+  sifClass     SifClass
+  confidence   Decimal                     @db.Decimal(5, 4)
+  modelVersion String
+  topDrivers   Json
+  embedding    Unsupported("vector(768)")?
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  feedbacks Feedback[]
+
+  @@index([sifClass])
+}
+
+model PatternCluster {
+  id           String   @id @default(uuid())
+  clusterCode  String   @unique
+  title        String
+  severity     String
+  trend        String
+  whereSummary String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  reports ClusterReport[]
+}
+
+model ClusterReport {
+  id        String   @id @default(uuid())
+  clusterId String
+  reportId  String
+  createdAt DateTime @default(now())
+
+  cluster PatternCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+  report  Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([clusterId, reportId])
+}
+
+model Review {
+  id         String         @id @default(uuid())
+  reportId   String
+  reviewerId String
+  decision   ReviewDecision
+  note       String?        @db.Text
+  reviewedAt DateTime       @default(now())
+  createdAt  DateTime       @default(now())
+
+  report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reviewer User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+  feedbacks Feedback[]
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  actor User @relation(fields: [actorId], references: [id], onDelete: Restrict)
+}
+
+model Feedback {
+  id                String   @id @default(uuid())
+  reportId          String
+  inferenceId       String
+  reviewId          String
+  reviewerId        String
+  aiSifClass        String
+  modelVersion      String
+  humanDecision     ReviewDecision
+  humanSifClass     String
+  note              String?  @db.Text
+  createdAt         DateTime @default(now())
+
+  report    Report      @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  inference AiInference @relation(fields: [inferenceId], references: [id], onDelete: Restrict)
+  review    Review      @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewer  User        @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  type      String
+  title     String
+  reportId  String
+  severity  String
+  createdAt DateTime @default(now())
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([reportId, type])
 }

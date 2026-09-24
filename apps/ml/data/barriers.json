@@ -1,0 +1,20 @@
+[
+  {
+    "barrier_code": "BAR-ENG-091",
+    "barrier_name": "Energy Isolation",
+    "barrier_class": "HARDWARE",
+    "level": "L1"
+  },
+  {
+    "barrier_code": "BAR-SYS-001",
+    "barrier_name": "Alarms",
+    "barrier_class": "SYSTEM",
+    "level": "L2"
+  },
+  {
+    "barrier_code": "BAR-PPE-001",
+    "barrier_name": "Fall Protection",
+    "barrier_class": "PPE",
+    "level": "L3"
+  }
+]
