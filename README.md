@@ -1,5 +1,5 @@
 <div align="center">
-<img src="docs/images/sif-sentinel-logo.png" alt="SIF-Sentinel logo" width="220"/>
+<img src="apps/web/public/SIF-logo.png" alt="SIF-Sentinel logo" width="220"/> 
 # SIF-Sentinel
  
 ### *Don't predict the accident. Detect the precursor.*
@@ -16,8 +16,10 @@ An explainable AI/NLP engine that reads free-text safety reports and detects **S
 **Team LiftOff** · Team ID **156159** · Category: Software · Theme: Smart Automation
  
 </div>
-> [!IMPORTANT]
-> All data, numbers and screenshots in this repository are **synthetic demo data**. They are **not** Oil India Limited production data. AI output only *flags* precursors for human review; a certified HSE Officer makes every final decision.
+Welcome to **SIF Sentinel**, an explainable AI/NLP safety intelligence platform designed to analyze free-text safety reports and identify **Serious Injury & Fatality (SIF) precursors** before they develop into serious incidents.
+
+SIF-Sentinel transforms unstructured safety observations into structured safety intelligence by analyzing **SIF potential, Life-Saving Rules, safety hazards, critical barrier failures, and recurring precursor patterns**. The platform is designed to help HSE teams move beyond simply asking *what happened* and instead investigate **what could have happened, which critical barrier was missing or failed, and where similar precursor conditions are recurring**.
+
  
 ---
  
@@ -644,38 +646,37 @@ flowchart LR
 6. Lin, T.-Y. et al. (2017). *Focal Loss for Dense Object Detection.* ICCV.
 7. Lundberg, S., Lee, S.-I. (2017). *A Unified Approach to Interpreting Model Predictions (SHAP).* NeurIPS.
 8. IOGP. *Life-Saving Rules* (IOGP Report 459).
+9. International Association of Oil & Gas Producers (IOGP). *Life-Saving Rules.* IOGP Report 459. London: IOGP. [Official report PDF / industry guidance document].
 ---
- 
-## 19. Team
- 
-**Team LiftOff** · Smart India Hackathon 2026 · Team ID 156159
- 
-| Name | Stream | Role |
-|---|---|---|
-| Ashraf Hussain Siddiqui | CSE | Team Leader |
-| Krishna Prajapati | AIML | Team Member |
-| Goldi Varma | CSE | Team Member |
-| Tejasvi N Ojha | CSE | Team Member |
-| Sanika Rajendra Jadhav | CSE | Team Member |
-| Nisha Kushwaha | CSE | Team Member |
- 
-Repository: [github.com/Siddiquiashrafhussain/SIF-Sentinel](https://github.com/Siddiquiashrafhussain/SIF-Sentinel)
- 
----
- 
-## 20. License
- 
+
+Works cited
+
+1. Serious Injury and Fatality (SIF): Rethinking Measurement and,
+   https://blog.intelex.com/measuring-safety-part-2-serious-injury-fatality-rethinkin
+   g-measurement-and-prevention/
+2. A Case Study in Assessing a Potential Severity Framework ... - OSTI,
+   https://www.osti.gov/servlets/purl/2403431
+3. AI/NLP Engine to Detect Serious Injury & Fatality (SIF) Precursors in,
+   https://zaidsayyed.in/tools/sih-problem-statements/sih26165
+4. Understanding SIF: Serious Injury and Fatality - NorthStandard,
+   https://north-standard.com/insights-and-resources/resources/archive/articles/un
+   derstanding-sif-serious-injury-and-fatality
+5. Safety Classification and Learning (SCL) Model - EEI.org,
+   https://www.eei.org/-/media/Project/EEI/Documents/Issues-and-Policy/Power-to
+   Prevent-SIF/eeiSCLmodel.pdf
+6. Serious Injury and Fatality Prevention Whitepaper - dekra uk,
+   https://www.dekra-uk.co.uk/en/modern-blueprint-sif-prevention/
+7. Serious Incident and Fatality Prevention Model (SIF),
+   https://www.nsc.org/workplace/sif-prevention-model
+8. Determining Serious Injury and Fatality Potential,
+   https://dekraprod-media.e-spirit.cloud/d6df64f5-b4d9-468c-8ffa-874a167a15ab/
+
+## 19. License
+
 Released under the MIT License. See `LICENSE` for details.
- 
+
 <div align="center">
-*Don't predict the accident. Detect the precursor.*
- 
+
+_Don't predict the accident. Detect the precursor._
+
 </div>
- 
-
-
-
-
-
-
-
