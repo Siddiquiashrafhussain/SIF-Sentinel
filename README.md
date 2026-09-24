@@ -1,29 +1,26 @@
 <div align="center">
-
 <img src="docs/images/sif-sentinel-logo.png" alt="SIF-Sentinel logo" width="220"/>
-
 # SIF-Sentinel
-
+ 
 ### *Don't predict the accident. Detect the precursor.*
-
+ 
 An explainable AI/NLP engine that reads free-text safety reports and detects **Serious Injury & Fatality (SIF) precursors** before they become accidents.
-
+ 
 ![Smart India Hackathon 2026](https://img.shields.io/badge/Smart%20India%20Hackathon-2026-0369a1)
 ![Problem Statement](https://img.shields.io/badge/Problem%20Statement-SIH26165-0284c7)
 ![Organization](https://img.shields.io/badge/Organization-Oil%20India%20Limited-334155)
 ![Status](https://img.shields.io/badge/Status-Prototype-f97316)
 ![Data](https://img.shields.io/badge/Data-Synthetic%20Demo-16a34a)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
-
+ 
 **Team LiftOff** · Team ID **156159** · Category: Software · Theme: Smart Automation
-
+ 
 </div>
-
 > [!IMPORTANT]
 > All data, numbers and screenshots in this repository are **synthetic demo data**. They are **not** Oil India Limited production data. AI output only *flags* precursors for human review; a certified HSE Officer makes every final decision.
-
+ 
 ---
-
+ 
 ## Table of Contents
 1. [Overview](#1-overview)
 2. [Why Severity Alone Is Not Enough](#2-why-severity-alone-is-not-enough)
@@ -45,15 +42,14 @@ An explainable AI/NLP engine that reads free-text safety reports and detects **S
 18. [References](#18-references)
 19. [Team](#19-team)
 20. [License](#20-license)
-
 ---
-
+ 
 ## 1. Overview
-
+ 
 Oil and gas operators collect thousands of **Unsafe Act / Unsafe Condition (UA/UC)**, **near-miss** and **incident** reports. Most are free text written under time pressure. Reviewing them by hand is slow and periodic, so a report that describes a *fatality-in-waiting* can sit in a queue for weeks.
-
+ 
 **SIF-Sentinel** turns that unstructured text into structured safety intelligence:
-
+ 
 | Input | Output |
 |---|---|
 | Free-text safety report + metadata (asset, shift, activity) | SIF potential class and confidence |
@@ -63,19 +59,19 @@ Oil and gas operators collect thousands of **Unsafe Act / Unsafe Condition (UA/U
 | | Recurring **precursor pattern** across rigs |
 | | Evidence span (the exact words that triggered the flag) |
 | | Priority for HSE review |
-
+ 
 The core idea is a chain, not a single label:
-
+ 
 ```
 Exposure  →  SIF potential  →  Critical barrier  →  Life-Saving Rule  →  Recurring pattern  →  Intervention priority
 ```
-
+ 
 ---
-
+ 
 ## 2. Why Severity Alone Is Not Enough
-
+ 
 A near miss with **no injury** can still be one small step from a fatality. Ranking reports by *actual* consequence hides exactly the ones that matter most. SIF-Sentinel ranks by *potential* consequence and by *which barrier failed*.
-
+ 
 ```mermaid
 quadrantChart
     title Actual vs Potential Consequence
@@ -91,13 +87,13 @@ quadrantChart
     Housekeeping observation: [0.10, 0.12]
     Minor first-aid case: [0.72, 0.20]
 ```
-
+ 
 > The points above are illustrative examples of the idea, not measured data.
-
+ 
 ---
-
+ 
 ## 3. Key Features
-
+ 
 - **Potential-based classification.** Four classes: *Non-SIF, SIF Potential, High SIF, Critical SIF*.
 - **Multi-label Life-Saving Rule mapping.** One report can breach several rules at once (for example Energy Isolation + Line of Fire).
 - **Barrier failure detection.** Links hazard → expected barrier → observed status (*missing, unverified, bypassed*). This is the core differentiator.
@@ -106,33 +102,26 @@ quadrantChart
 - **Human-in-the-loop.** Nothing is "Verified" until an HSE Officer signs off; overrides feed back as new training labels.
 - **Hard safety net.** Deterministic rules force high-risk phrases (bypassed interlock, muted H2S alarm, trapped pressure) to at least *High SIF*, regardless of model score.
 - **Command-room dashboard.** Home, Reports, SIF Analysis, Life-Saving Rules, Barriers, Patterns, Sites and a Review Queue.
-
 ---
-
+ 
 ## 4. Product Screens
-
+ 
 > Prototype UI built with the [SIF-Sentinel Design System](docs/DESIGN.md). Demo data only.
-
+ 
 ### Home: Safety Intelligence Dashboard
 <img src="docs/images/dashboard-home.png" alt="Home dashboard" width="760"/>
-
 ### Safety Reports & Observations
 <img src="docs/images/reports-explorer.png" alt="Reports explorer with AI SIF detection" width="760"/>
-
 ### SIF Analysis
 <img src="docs/images/sif-analysis.png" alt="SIF analysis trends" width="760"/>
-
 ### Life-Saving Rules
 <img src="docs/images/life-saving-rules.png" alt="Life-Saving Rules risk view" width="760"/>
-
 ### Barrier Analysis
 <img src="docs/images/barrier-analysis.png" alt="Barrier analysis and Swiss-cheese model" width="760"/>
-
 ### Precursor Patterns
 <img src="docs/images/precursor-patterns.png" alt="Cross-site precursor patterns" width="760"/>
-
 Demo distribution shown on the Home dashboard:
-
+ 
 ```mermaid
 pie showData
     title Report potential (synthetic demo data, 1,428 reports)
@@ -140,13 +129,13 @@ pie showData
     "SIF Potential" : 114
     "High SIF" : 28
 ```
-
+ 
 ---
-
+ 
 ## 5. System Architecture
-
+ 
 ### 5.1 High-level architecture
-
+ 
 ```mermaid
 flowchart LR
     subgraph SRC["Data sources"]
@@ -154,12 +143,12 @@ flowchart LR
         A2["Near-miss reports"]
         A3["Incident reports"]
     end
-
+ 
     subgraph ING["Ingestion"]
         B1["Validation and anonymisation"]
         B2["Queue"]
     end
-
+ 
     subgraph AI["AI/NLP service - FastAPI"]
         C1["Preprocessing"]
         C2["NER"]
@@ -169,22 +158,22 @@ flowchart LR
         C6["Explainability"]
         C7["Safety-net rules"]
     end
-
+ 
     subgraph STORE["Storage"]
         D1[("PostgreSQL")]
         D2[("pgvector embeddings")]
     end
-
+ 
     subgraph INTEL["Intelligence layer"]
         E1["Precursor clustering"]
         E2["Risk prioritisation"]
     end
-
+ 
     subgraph WEB["Web app - React"]
         F1["Dashboard and analytics"]
         F2["HSE Review Queue"]
     end
-
+ 
     A1 --> B1
     A2 --> B1
     A3 --> B1
@@ -204,9 +193,9 @@ flowchart LR
     F2 -- "confirm / override" --> G["Feedback labels"]
     G --> D1
 ```
-
+ 
 ### 5.2 Report lifecycle (sequence)
-
+ 
 ```mermaid
 sequenceDiagram
     autonumber
@@ -217,7 +206,7 @@ sequenceDiagram
     participant NLP as AI/NLP engine
     participant DB as PostgreSQL + pgvector
     actor HSE as HSE Officer
-
+ 
     Field->>Web: Submit safety report
     Web->>API: POST /reports
     API->>DB: Save report (status PENDING)
@@ -235,9 +224,9 @@ sequenceDiagram
         API->>DB: Keep in standard queue
     end
 ```
-
+ 
 ### 5.3 Report status state machine
-
+ 
 ```mermaid
 stateDiagram-v2
     [*] --> Submitted
@@ -254,13 +243,13 @@ stateDiagram-v2
     Standard --> [*]
     Retrain --> [*]
 ```
-
+ 
 ---
-
+ 
 ## 6. AI/NLP Engine
-
+ 
 ### 6.1 Processing pipeline
-
+ 
 ```mermaid
 flowchart TD
     R["Raw report text + metadata"] --> P1["1. Text normalisation<br/>spelling, abbreviations, equipment and location names"]
@@ -277,11 +266,11 @@ flowchart TD
     X --> V["6. Embedding + clustering<br/>Sentence Transformers, HDBSCAN"]
     V --> O["Structured output + priority"]
 ```
-
+ 
 ### 6.2 Barrier failure logic
-
+ 
 The system reasons in three steps: *what hazard is present*, *which barrier should stop it*, *what does the text say about that barrier*.
-
+ 
 ```mermaid
 flowchart LR
     T["Report text"] --> H{"Hazard detected?"}
@@ -298,9 +287,9 @@ flowchart LR
     O -- "muted / jumpered" --> I["Barrier FAILED: bypassed"]
     O -- "confirmed in place" --> K["Barrier OK"]
 ```
-
+ 
 **Worked example (illustrative)**
-
+ 
 | Field | Value |
 |---|---|
 | Report | *"Pump stopped, but LOTO was not applied before opening the connected line."* |
@@ -310,9 +299,9 @@ flowchart LR
 | Barrier | LOTO, **missing** |
 | Evidence span | "LOTO was not applied" |
 | Priority | Immediate HSE review |
-
+ 
 ### 6.3 Precursor pattern discovery and escalation
-
+ 
 ```mermaid
 flowchart LR
     A["Report embeddings"] --> B["HDBSCAN clustering"]
@@ -322,9 +311,9 @@ flowchart LR
     D -- "No" --> F["Monitor, add to trend"]
     E --> G["HSE review and field action"]
 ```
-
+ 
 ### 6.4 Modelling decisions
-
+ 
 | Topic | Decision | Reason |
 |---|---|---|
 | Encoder | DeBERTa-v3 shared encoder with three task heads | One model learns SIF, rules and entities together; cheaper than three models |
@@ -335,11 +324,11 @@ flowchart LR
 | Baselines | TF-IDF + Logistic Regression, TF-IDF + SVM, BERT/RoBERTa | Proves the upgrade is worth it |
 | Safety net | Deterministic rules force a minimum *High SIF* | Guards against a model miss on the worst phrases |
 | Feedback | HSE overrides become new labels | Continuous improvement |
-
+ 
 ---
-
+ 
 ## 7. Data Model
-
+ 
 ```mermaid
 erDiagram
     SITE ||--o{ ASSET : has
@@ -355,7 +344,7 @@ erDiagram
     PATTERN_CLUSTER ||--o{ CLUSTER_REPORT : groups
     REPORT ||--o{ CLUSTER_REPORT : "belongs to"
     REPORT ||--o{ AUDIT_LOG : "logged in"
-
+ 
     REPORT {
         uuid id PK
         string report_code
@@ -395,15 +384,15 @@ erDiagram
         string trend
     }
 ```
-
+ 
 > **Rule:** every dashboard number is computed from these tables with SQL. No KPI is hard-coded in the UI.
-
+ 
 ---
-
+ 
 ## 8. Life-Saving Rules Taxonomy
-
+ 
 The nine rules follow the IOGP Life-Saving Rules. Codes below are the canonical IDs stored in `data/lsr.json` and used by every page and API.
-
+ 
 | Code | Rule | Typical exposure |
 |---|---|---|
 | LSR-01 | Bypassing Safety Controls | Interlocks, trips, muted alarms |
@@ -415,11 +404,11 @@ The nine rules follow the IOGP Life-Saving Rules. Codes below are the canonical 
 | LSR-07 | Safe Mechanical Lifting | Cranes, slings, rigging |
 | LSR-08 | Work Authorisation | Permit to work, handover |
 | LSR-09 | Work at Height | Derrick, scaffolds, platforms |
-
+ 
 ---
-
+ 
 ## 9. Tech Stack
-
+ 
 | Layer | Technology |
 |---|---|
 | Frontend | React, TypeScript, Tailwind CSS, Recharts, Leaflet |
@@ -429,11 +418,11 @@ The nine rules follow the IOGP Life-Saving Rules. Codes below are the canonical 
 | Data | PostgreSQL + pgvector |
 | DevOps | Docker, Docker Compose, GitHub Actions (CI/CD) |
 | Design | [SIF-Sentinel Design System](docs/DESIGN.md): Hanken Grotesk, Public Sans, JetBrains Mono |
-
+ 
 ---
-
+ 
 ## 10. Repository Structure
-
+ 
 ```
 SIF-Sentinel/
 ├─ frontend/                 # React + TypeScript app
@@ -464,17 +453,16 @@ SIF-Sentinel/
 ├─ .env.example
 └─ README.md
 ```
-
+ 
 ---
-
+ 
 ## 11. Getting Started
-
+ 
 ### Prerequisites
 - Node.js 20+ and npm or pnpm
 - Python 3.11+
 - Docker and Docker Compose
 - (Optional) A GPU or Google Colab for fine-tuning DeBERTa-v3
-
 ### Quick start with Docker
 ```bash
 git clone https://github.com/Siddiquiashrafhussain/SIF-Sentinel.git
@@ -482,15 +470,15 @@ cd SIF-Sentinel
 cp .env.example .env
 docker compose up --build
 ```
-
+ 
 | Service | URL |
 |---|---|
 | Web app | http://localhost:3000 |
 | API + Swagger docs | http://localhost:8000/docs |
 | PostgreSQL | localhost:5432 |
-
+ 
 ### Run without Docker
-
+ 
 **Backend**
 ```bash
 cd backend
@@ -500,14 +488,14 @@ alembic upgrade head
 python -m app.db.seed          # loads synthetic demo data
 uvicorn app.main:app --reload --port 8000
 ```
-
+ 
 **Frontend**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
+ 
 **Train models (optional)**
 ```bash
 cd ml
@@ -517,13 +505,13 @@ python training/train_deberta.py       # fine-tune, best on a GPU / Colab
 python training/evaluate.py            # writes metrics + confusion matrix
 ```
 Copy the trained model into `ml/models/`; the FastAPI service loads it at startup.
-
+ 
 > Commands follow the planned layout in section 10. Adjust paths to match the current state of the repository.
-
+ 
 ---
-
+ 
 ## 12. API Reference
-
+ 
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/auth/login` | Sign in, returns session cookie |
@@ -541,7 +529,7 @@ Copy the trained model into `ml/models/`; the FastAPI service loads it at startu
 | `POST` | `/patterns/recompute` | Re-run clustering |
 | `POST` | `/nlp/predict` | Text in, SIF / LSR / barrier / evidence out |
 | `GET` | `/health` | Service health |
-
+ 
 **Example: `POST /nlp/predict`**
 ```json
 {
@@ -563,13 +551,13 @@ Copy the trained model into `ml/models/`; the FastAPI service loads it at startu
 }
 ```
 > The response above is an illustrative format, not a measured model output.
-
+ 
 ---
-
+ 
 ## 13. Configuration
-
+ 
 Copy `.env.example` to `.env`.
-
+ 
 | Variable | Purpose | Example |
 |---|---|---|
 | `DATABASE_URL` | PostgreSQL connection | `postgresql://user:pass@db:5432/sif` |
@@ -579,13 +567,13 @@ Copy `.env.example` to `.env`.
 | `CLUSTER_SENSITIVITY` | Clustering strictness | `0.85` |
 | `ESCALATION_MIN_RIGS` | Rigs needed to auto-escalate | `2` |
 | `DEMO_MODE` | Shows the demo-data banner | `true` |
-
+ 
 ---
-
+ 
 ## 14. Evaluation Plan
-
+ 
 Results are **not published yet**. The plan below is how the system will be judged.
-
+ 
 | Task | Metric | Design target |
 |---|---|---|
 | SIF potential | Recall (High/Critical), F2, PR-AUC | Recall ≥ 0.90 on High/Critical |
@@ -594,16 +582,15 @@ Results are **not published yet**. The plan below is how the system will be judg
 | Clustering | Cluster purity (expert check), silhouette | Expert-reviewed |
 | Safety net | Rule coverage | 100% of listed phrases forced to ≥ High SIF |
 | Human agreement | HSE agreement rate | Track over time |
-
+ 
 **Honest testing rules**
 - Train on synthetic data, then test on a **separate, hand-written** set.
 - Report a confusion matrix, not just one accuracy number.
 - Never claim performance on real OIL data until it has been tested on real, approved data.
-
 ---
-
+ 
 ## 15. Security, Privacy & Responsible AI
-
+ 
 - **Human final say.** AI flags; a certified HSE Officer verifies. The UI shows *Verified by HSE Officer* only after sign-off.
 - **Explainable by default.** Every flag shows confidence, drivers and evidence.
 - **Access control.** Role-based access (HSE Officer, Field Supervisor, Admin); only HSE Officers can review.
@@ -612,16 +599,15 @@ Results are **not published yet**. The plan below is how the system will be judg
 - **Web security.** Validated inputs, parameterised queries (ORM only), rate-limited login, strict CORS, HTTPS in production.
 - **Drift monitoring.** Watch input and score distributions; retrain periodically.
 - **Transparency.** The demo-data banner stays on until real, approved data is used.
-
 ---
-
+ 
 ## 16. Roadmap
-
+ 
 ```mermaid
 flowchart LR
     P1["P1<br/>Data and taxonomy"] --> P2["P2<br/>Core AI MVP"] --> P3["P3<br/>Intelligence layer"] --> P4["P4<br/>HSE dashboard"] --> P5["P5<br/>Production"]
 ```
-
+ 
 | Phase | Scope | Status |
 |---|---|---|
 | **P1** Data and taxonomy | Ingestion, anonymisation, expert gold set, IOGP rule mapping | In progress |
@@ -629,29 +615,27 @@ flowchart LR
 | **P3** Intelligence layer | Barrier failure logic, pgvector similarity, BERTopic / HDBSCAN | Planned |
 | **P4** HSE dashboard | Risk maps, activity ranking, trends, evidence-span view | UI prototype done, API wiring planned |
 | **P5** Production | RBAC, encryption, feedback loop, CI/CD, drift monitoring | Planned |
-
-- [ ] Design system and UI prototype screens
-- [ ] Problem definition and solution design
+ 
+- [x] Design system and UI prototype screens
+- [x] Problem definition and solution design
 - [ ] Synthetic dataset generator with ground-truth labels
 - [ ] Baseline model (TF-IDF + Logistic Regression)
 - [ ] Fine-tuned DeBERTa-v3 multi-task model
 - [ ] Backend API and database
 - [ ] Human review and feedback loop
 - [ ] Docker Compose deployment and CI
-
 ---
-
+ 
 ## 17. Limitations
-
+ 
 - Trained and demonstrated on **synthetic data**; behaviour on real OIL reports is unknown until tested.
 - Free-text quality varies (abbreviations, local terms, mixed languages); domain vocabulary work is ongoing.
 - Rare-class learning depends on expert labels; weak supervision adds noise.
 - The tool supports HSE judgement and does **not** replace it or any regulatory process.
-
 ---
-
+ 
 ## 18. References
-
+ 
 1. Fang, W., Luo, H., Xu, S., Love, P. E. D., Lu, Z., Ye, C. (2020). *Automated text classification of near-misses from safety reports: An improved deep learning approach.* Advanced Engineering Informatics, 44.
 2. He, P., Gao, J., Chen, W. (2021). *DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing.* arXiv:2111.09543.
 3. Reimers, N., Gurevych, I. (2019). *Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks.* EMNLP.
@@ -660,16 +644,38 @@ flowchart LR
 6. Lin, T.-Y. et al. (2017). *Focal Loss for Dense Object Detection.* ICCV.
 7. Lundberg, S., Lee, S.-I. (2017). *A Unified Approach to Interpreting Model Predictions (SHAP).* NeurIPS.
 8. IOGP. *Life-Saving Rules* (IOGP Report 459).
-
 ---
-
-
+ 
+## 19. Team
+ 
+**Team LiftOff** · Smart India Hackathon 2026 · Team ID 156159
+ 
+| Name | Stream | Role |
+|---|---|---|
+| Ashraf Hussain Siddiqui | CSE | Team Leader |
+| Krishna Prajapati | AIML | Team Member |
+| Goldi Varma | CSE | Team Member |
+| Tejasvi N Ojha | CSE | Team Member |
+| Sanika Rajendra Jadhav | CSE | Team Member |
+| Nisha Kushwaha | CSE | Team Member |
+ 
+Repository: [github.com/Siddiquiashrafhussain/SIF-Sentinel](https://github.com/Siddiquiashrafhussain/SIF-Sentinel)
+ 
+---
+ 
 ## 20. License
-
+ 
 Released under the MIT License. See `LICENSE` for details.
-
+ 
 <div align="center">
-
 *Don't predict the accident. Detect the precursor.*
-
+ 
 </div>
+ 
+
+
+
+
+
+
+
