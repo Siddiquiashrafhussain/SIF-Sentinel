@@ -1,0 +1,11 @@
+[
+  { "code": "LSR-01", "name": "Bypassing Safety Controls", "area": "Operations" },
+  { "code": "LSR-02", "name": "Confined Space", "area": "Safety" },
+  { "code": "LSR-03", "name": "Driving", "area": "Logistics" },
+  { "code": "LSR-04", "name": "Energy Isolation", "area": "Operations" },
+  { "code": "LSR-05", "name": "Hot Work", "area": "Safety" },
+  { "code": "LSR-06", "name": "Line of Fire", "area": "Operations" },
+  { "code": "LSR-07", "name": "Safe Mechanical Lifting", "area": "Operations" },
+  { "code": "LSR-08", "name": "Work Authorization", "area": "Safety" },
+  { "code": "LSR-09", "name": "Working at Height", "area": "Operations" }
+]

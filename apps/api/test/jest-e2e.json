@@ -1,0 +1,16 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "transformIgnorePatterns": [
+    "/node_modules/(?!(@nestjs/bullmq|bullmq)/)"
+  ],
+  "moduleNameMapper": {
+    "^@nestjs/bullmq$": "<rootDir>/__mocks__/@nestjs/bullmq.ts",
+    "^bullmq$": "<rootDir>/__mocks__/bullmq.ts"
+  }
+}

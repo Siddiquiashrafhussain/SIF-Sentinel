@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  
+  --color-background-base: var(--color-background-base);
+  --color-surface-1: var(--color-surface-level-1);
+  --color-surface-2: var(--color-surface-level-2);
+  
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-inverse: var(--color-text-inverse);
+  
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-default: var(--color-border-default);
+  --color-border-strong: var(--color-border-strong);
+  
+  --color-severity-critical: var(--color-severity-critical);
+  --color-severity-high: var(--color-severity-high);
+  --color-severity-medium: var(--color-severity-medium);
+  --color-severity-low: var(--color-severity-low);
+  --color-severity-info: var(--color-severity-info);
+  
+  --color-ai-bg: var(--color-ai-badge-bg);
+  --color-ai-text: var(--color-ai-badge-text);
+  
+  --color-hse-v-bg: var(--color-hse-verified-bg);
+  --color-hse-v-text: var(--color-hse-verified-text);
+  --color-hse-v-border: var(--color-hse-verified-border);
+  --color-hse-p-bg: var(--color-hse-pending-bg);
+  --color-hse-p-text: var(--color-hse-pending-text);
+  --color-hse-p-border: var(--color-hse-pending-border);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-level-1: var(--shadow-level-1);
+  --shadow-level-2: var(--shadow-level-2);
+  --shadow-level-3: var(--shadow-level-3);
+
+  --font-sans: var(--font-public-sans);
+  --font-display: var(--font-hanken-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--color-background-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans), sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
+}

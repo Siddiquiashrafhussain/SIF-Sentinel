@@ -1,0 +1,12 @@
+[
+  { "code": "DUL-RIG-01", "name": "Duliajan Rig 01", "siteCode": "SITE-DUL", "lat": 27.367, "lng": 95.340 },
+  { "code": "DUL-RIG-02", "name": "Duliajan Rig 02", "siteCode": "SITE-DUL", "lat": 27.369, "lng": 95.345 },
+  { "code": "DUL-PROD-01", "name": "Duliajan Prod 01", "siteCode": "SITE-DUL", "lat": 27.365, "lng": 95.335 },
+  { "code": "MOR-RIG-01", "name": "Moran Rig 01", "siteCode": "SITE-MOR", "lat": 27.170, "lng": 94.920 },
+  { "code": "MOR-WELL-02", "name": "Moran Well Beta-02", "siteCode": "SITE-MOR", "lat": 27.173, "lng": 94.928 },
+  { "code": "MOR-PROD-02", "name": "Moran Prod 02", "siteCode": "SITE-MOR", "lat": 27.175, "lng": 94.930 },
+  { "code": "DIG-RIG-01", "name": "Digboi Rig 01", "siteCode": "SITE-DIG", "lat": 27.380, "lng": 95.630 },
+  { "code": "DIG-WELL-01", "name": "Digboi Well 01", "siteCode": "SITE-DIG", "lat": 27.385, "lng": 95.635 },
+  { "code": "KUM-RIG-01", "name": "Kumchai Rig 01", "siteCode": "SITE-KUM", "lat": 27.520, "lng": 96.000 },
+  { "code": "KUM-RIG-02", "name": "Kumchai Rig 02", "siteCode": "SITE-KUM", "lat": 27.525, "lng": 96.005 }
+]
