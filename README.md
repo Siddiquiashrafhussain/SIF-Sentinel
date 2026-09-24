@@ -1,6 +1,4 @@
-<div align="center">
-<img src="apps/web/public/SIF-logo.png" alt="SIF-Sentinel logo" width="220"/>
-# SIF-Sentinel
+<div align="center"> <img src="apps/web/public/SIF-logo.png" alt="SIF-Sentinel logo" width="220"/>
 
 ### *Don't predict the accident. Detect the precursor.*
  
@@ -19,8 +17,6 @@ An explainable AI/NLP engine that reads free-text safety reports and detects **S
 Welcome to **SIF Sentinel**, an explainable AI/NLP safety intelligence platform designed to analyze free-text safety reports and identify **Serious Injury & Fatality (SIF) precursors** before they develop into serious incidents.
 
 SIF-Sentinel transforms unstructured safety observations into structured safety intelligence by analyzing **SIF potential, Life-Saving Rules, safety hazards, critical barrier failures, and recurring precursor patterns**. The platform is designed to help HSE teams move beyond simply asking *what happened* and instead investigate **what could have happened, which critical barrier was missing or failed, and where similar precursor conditions are recurring**.
-
-</div>
 </div>
  
 ## Table of Contents
