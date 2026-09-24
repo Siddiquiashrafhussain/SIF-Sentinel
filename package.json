@@ -1,0 +1,16 @@
+{
+  "name": "sif-sentinel",
+  "version": "1.0.0",
+  "description": "SIF-Sentinel \u2014 Explainable AI/NLP Safety Intelligence Platform",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^1.11.3"
+  },
+  "packageManager": "pnpm@8.15.1"
+}
