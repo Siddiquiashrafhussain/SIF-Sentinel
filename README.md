@@ -1,5 +1,5 @@
 <div align="center">
-<img src="apps/web/public/sif-sentinel-logo.png" alt="SIF-Sentinel logo"/>
+<img src="apps/web/public/sif-sentinel-logo.png" alt="SIF-Sentinel logo" width="220" />
 
 ### _Don't predict the accident. Detect the precursor._
 
