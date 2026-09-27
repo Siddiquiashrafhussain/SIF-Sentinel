@@ -112,27 +112,27 @@ quadrantChart
 
 ### Home: Safety Intelligence Dashboard
 
-<img src="docs/images/dashboard-home.svg" alt="Home dashboard" width="760"/>
+<img src="apps/web/public/dashboard-home.png" alt="Home dashboard" width="760"/>
 
 ### Safety Reports & Observations
 
-<img src="docs/images/reports-explorer.svg" alt="Reports explorer with AI SIF detection" width="760"/>
+<img src="apps/web/public/reports-explorer (1).png" alt="Reports explorer with AI SIF detection" width="760"/>
 
 ### SIF Analysis
 
-<img src="docs/images/sif-analysis.svg" alt="SIF analysis trends" width="760"/>
+<img src="apps/web/public/sif-analysis.png" alt="SIF analysis trends" width="760"/>
 
 ### Life-Saving Rules
 
-<img src="docs/images/life-saving-rules.svg" alt="Life-Saving Rules risk view" width="760"/>
+<img src="apps/web/public/life-saving-rules.png" alt="Life-Saving Rules risk view" width="760"/>
 
 ### Barrier Analysis
 
-<img src="docs/images/barrier-analysis.svg" alt="Barrier analysis and Swiss-cheese model" width="760"/>
+<img src="apps/web/public/barrier-analysis.png" alt="Barrier analysis and Swiss-cheese model" width="760"/>
 
 ### Precursor Patterns
 
-<img src="docs/images/precursor-patterns.svg" alt="Cross-site precursor patterns" width="760"/>
+<img src="apps/web/public/precursor-patterns.png" alt="Cross-site precursor patterns" width="760"/>
 Demo distribution shown on the Home dashboard:
 
 ```mermaid
